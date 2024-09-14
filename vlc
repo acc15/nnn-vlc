@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+# Description: Plays selected items (or current directory) using VLC
+# Shell: POSIX compliant
+# Authors: Vyacheslav Mayorov
+
+selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+# assume VLC (and xargs) can't fail
+# shellcheck disable=SC2015
+{ [ -s "$selection" ] && cat "$selection" || printf "%s" "$2"; } | \
+# macosx requires special handling here to make VLC open in foreground:
+# https://www.jviotti.com/2022/11/28/launching-macos-applications-from-the-command-line.html
+{ [ "$(uname)" = "Darwin" ] && xargs -0 open -a vlc --args || xargs -0 nohup vlc; } \
+>/dev/null 2>&1 &
+
