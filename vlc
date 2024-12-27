@@ -5,12 +5,14 @@
 # Authors: acc15
 
 selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+hovered_path="$1"
+current_dir="$2"
 
 get_selection() {
     if [ -s "$selection" ]; then
         cat "$selection"
     else
-        printf "%s" "$2"
+        printf "%s" "$current_dir"
     fi
 }
 
