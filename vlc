@@ -22,7 +22,7 @@ launch_vlc() {
     if [ "$(uname)" = "Darwin" ]; then
         xargs -0 open -a vlc --args
     else
-        xargs -0 nohup vlc >/dev/null 2>&1 &
+        xargs -0 -I {} setsid sh -c 'vlc -q "{}" >/dev/null 2>&1 </dev/null' &
     fi
 }
 
